@@ -144,7 +144,7 @@ minetest.register_craftitem("rocket:rocket", {
 					else
 						entity:get_luaentity().owner = user:get_player_name()
 					end
-					minetest.sound_play("rocket_whistle", {object = entity, gain = 3.0, max_hear_distance = 15})
+					minetest.sound_play("rocket_whistle", {object = entity, gain = 3.0, max_hear_distance = 80})
 
 					spawn_smoke_particles(pos, 0.5, -d.x, -d.y, -d.z, 0.0)
 				else
