@@ -122,13 +122,31 @@ minetest.register_craftitem("rocket:rocket", {
 	inventory_image = "rocket-item.png",
 	wield_image = "rocket-item.png",
 	on_use = function(itemstack, user, pointed_thing)
-		if user then
+		if user and user:is_player() then
 			local pos = user:get_pos()
 			local d = user:get_look_dir()
 			local node = minetest.get_node(pos)
 
 			if node and minetest.registered_nodes[node.name].drawtype ~= "liquid" then
-				if not user:get_player_control()["sneak"] then
+				if user:get_player_control()["sneak"] or user.is_fake_player then
+					-- launch rocket
+					pos.y = pos.y + 1
+					local rocket_pos = {x = pos.x + 2*d.x, y = pos.y + 2*d.y, z = pos.z + 2*d.z}
+
+					local entity = minetest.add_entity(rocket_pos, "rocket:entity")
+					entity:add_velocity({x = d.x * 10, y = d.y * 10, z = d.z * 10})
+					entity:set_rotation({z = 0, x = -(user:get_look_vertical() + 3.1415926/2), y = user:get_look_horizontal()})
+					if user.is_fake_player then
+						-- pipeworks fake player
+						local meta = minetest.get_meta(user:get_pos())
+						entity:get_luaentity().owner = meta and meta:get_string("owner") or ""
+					else
+						entity:get_luaentity().owner = user:get_player_name()
+					end
+					minetest.sound_play("rocket_whistle", {object = entity, gain = 3.0, max_hear_distance = 15})
+
+					spawn_smoke_particles(pos, 0.5, -d.x, -d.y, -d.z, 0.0)
+				else
 					-- boost player
 					local v = user:get_player_velocity()
 					v.x = d.x*boost - v.x
@@ -139,18 +157,6 @@ minetest.register_craftitem("rocket:rocket", {
 					minetest.sound_play("rocket_whistle", {object = user, gain = 3.0, max_hear_distance = 15})
 
 					spawn_smoke_particles(pos, 1.0, -d.x, -d.y, -d.z, 1.0)
-				else
-					-- launch rocket
-					pos.y = pos.y + 1
-					local rocket_pos = {x = pos.x + 2*d.x, y = pos.y + 2*d.y, z = pos.z + 2*d.z}
-
-					local entity = minetest.add_entity(rocket_pos, "rocket:entity")
-					entity:add_velocity({x = d.x * 10, y = d.y * 10, z = d.z * 10})
-					entity:set_rotation({z = 0, x = -(user:get_look_vertical() + 3.1415926/2), y = user:get_look_horizontal()})
-					entity:get_luaentity().owner = user:get_player_name()
-					minetest.sound_play("rocket_whistle", {object = entity, gain = 3.0, max_hear_distance = 15})
-
-					spawn_smoke_particles(pos, 0.5, -d.x, -d.y, -d.z, 0.0)
 				end
 			else
 				-- in liquid
