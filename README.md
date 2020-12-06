@@ -6,3 +6,5 @@ Using a rocket while sneaking launches a rocket in look direction which explodes
 Exploding rockets deal minor area damage and spawn colored particles.
 
 Rockets can be launched from a pipeworks node breaker.
+
+`rocket_require_blueprint = true` adds an uncraftable blueprint that is required to craft rockets.

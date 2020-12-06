@@ -19,3 +19,4 @@ function make_texture(){
 
 make_texture rocket-item
 make_texture rocket-star
+make_texture rocket-blueprint

@@ -3,6 +3,7 @@ local MP = minetest.get_modpath("rocket").."/"
 
 local random = math.random
 
+local require_blueprint = minetest.settings:get_bool("rocket_require_blueprint")
 local boost = tonumber(minetest.settings:get("rocket_boost")) or 50 -- velocity
 local particle_amount = tonumber(minetest.settings:get("rocket_particle_amount") or 25) -- number of particles per rocket
 local particle_amount_explode = tonumber(minetest.settings:get("rocket_particle_amount_explode") or 50) -- number of particles per rocket explosion
@@ -170,13 +171,31 @@ minetest.register_craftitem("rocket:rocket", {
 	end,
 })
 
-minetest.register_craft({
-	output = "rocket:rocket",
-	recipe = {
-		{"default:paper"},
-		{"tnt:gunpowder"},
-		{"farming:string"},
-	},
-})
+if require_blueprint then
+	minetest.register_craftitem("rocket:rocket_blueprint", {
+		description = "Rocket Blueprint",
+		inventory_image = "rocket-blueprint.png",
+		stack_max = 1,
+	})
+
+	minetest.register_craft({
+		output = "rocket:rocket",
+		recipe = {
+			{"default:paper", ""},
+			{"tnt:gunpowder", "rocket:rocket_blueprint"},
+			{"farming:string", ""},
+		},
+		replacements = {{"rocket:rocket_blueprint", "rocket:rocket_blueprint"}},
+	})
+else
+	minetest.register_craft({
+		output = "rocket:rocket",
+		recipe = {
+			{"default:paper"},
+			{"tnt:gunpowder"},
+			{"farming:string"},
+		},
+	})
+end
 
 print("[MOD] Rocket loaded")
