@@ -4,7 +4,7 @@ local MP = minetest.get_modpath("rocket").."/"
 local random = math.random
 
 local require_blueprint = minetest.settings:get_bool("rocket_require_blueprint")
-local boost = tonumber(minetest.settings:get("rocket_boost")) or 50 -- velocity
+local boost = tonumber(minetest.settings:get("rocket_boost")) or 50 -- velocity, or zero to disable rocket riding
 local particle_amount = tonumber(minetest.settings:get("rocket_particle_amount") or 25) -- number of particles per rocket
 local particle_amount_explode = tonumber(minetest.settings:get("rocket_particle_amount_explode") or 50) -- number of particles per rocket explosion
 
@@ -129,7 +129,7 @@ minetest.register_craftitem("rocket:rocket", {
 			local node = minetest.get_node(pos)
 
 			if node and minetest.registered_nodes[node.name].drawtype ~= "liquid" then
-				if user:get_player_control()["sneak"] or user.is_fake_player then
+				if boost == 0 or user:get_player_control()["sneak"] or user.is_fake_player then
 					-- launch rocket
 					pos.y = pos.y + 1
 					local rocket_pos = {x = pos.x + 2*d.x, y = pos.y + 2*d.y, z = pos.z + 2*d.z}

@@ -7,6 +7,9 @@ Exploding rockets deal minor area damage and spawn colored particles.
 
 Rockets can be launched from a pipeworks node breaker.
 
+`rocket_boost = 0` disables rocket riding, non-zero values is the velocity added to player (default: 50).
+Boost values less than 30 aren't very useful.
+
 `rocket_require_blueprint = true` adds an uncraftable blueprint that is required to craft rockets.
 
 
