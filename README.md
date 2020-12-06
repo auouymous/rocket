@@ -8,3 +8,12 @@ Exploding rockets deal minor area damage and spawn colored particles.
 Rockets can be launched from a pipeworks node breaker.
 
 `rocket_require_blueprint = true` adds an uncraftable blueprint that is required to craft rockets.
+
+
+
+Links
+==========
+
+[Download](https://github.com/auouymous/rocket/archive/master.zip)
+
+[Youtube Video](https://www.youtube.com/watch?v=_gAb9BoRc00)
