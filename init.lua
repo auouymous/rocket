@@ -165,7 +165,11 @@ minetest.register_craftitem("rocket:rocket", {
 				spawn_smoke_particles(pos, 1.0, d.x, d.y, d.z, 1.0)
 			end
 
-			itemstack:take_item(1)
+			-- don't consume item if player has the 'give' privilege or has creative
+			local playername = user.get_player_name and user:get_player_name() or ""
+			if not (minetest.get_player_privs(playername).give or minetest.is_creative_enabled(playername)) then
+				itemstack:take_item(1)
+			end
 		end
 		return itemstack
 	end,
