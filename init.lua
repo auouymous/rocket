@@ -5,8 +5,8 @@ local random = math.random
 
 local require_blueprint = minetest.settings:get_bool("rocket_require_blueprint")
 local boost = tonumber(minetest.settings:get("rocket_boost")) or 50 -- velocity, or zero to disable rocket riding
-local particle_amount = tonumber(minetest.settings:get("rocket_particle_amount") or 25) -- number of particles per rocket
-local particle_amount_explode = tonumber(minetest.settings:get("rocket_particle_amount_explode") or 50) -- number of particles per rocket explosion
+local particle_amount = tonumber(minetest.settings:get("rocket_particle_amount")) or 25 -- number of particles per rocket
+local particle_amount_explode = tonumber(minetest.settings:get("rocket_particle_amount_explode")) or 50 -- number of particles per rocket explosion
 
 local hex = {"4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"}
 
